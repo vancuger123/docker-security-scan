@@ -1,20 +1,13 @@
 name: Trivy Scan
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
 
 jobs:
   scan:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install Trivy
+    - name: Scan Docker
       run: |
-        sudo apt-get update
-        sudo apt-get install -y wget
-        wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.1_Linux-64bit.deb
-        sudo dpkg -i trivy_0.50.1_Linux-64bit.deb
-
-    - name: Scan Docker image with Trivy
-      run: |
-        trivy image --exit-code 1 --severity CRITICAL grpc/go
+        docker run --rm aquasec/trivy image --exit-code 1 --severity CRITICAL grpc/go
